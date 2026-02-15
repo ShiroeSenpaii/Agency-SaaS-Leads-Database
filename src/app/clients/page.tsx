@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import {
   createClient,
   deleteClient,
@@ -11,15 +11,22 @@ import {
   updateClient,
 } from '@/lib/storage';
 import { Client, Opportunity } from '@/types';
+import { ClientOnly } from '@/components/ClientOnly';
 
 const emptyForm = { name: '', niche: '', constraints: '', notes: '' };
 
 export default function ClientsPage() {
-  const [clients, setClients] = useState<Client[]>(getClients());
-  const [opportunities] = useState<Opportunity[]>(getOpportunities());
+  const [clients, setClients] = useState<Client[]>([]);
+  const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [selectedOpportunityId, setSelectedOpportunityId] = useState<string>('');
+
+
+  useEffect(() => {
+    setClients(getClients());
+    setOpportunities(getOpportunities());
+  }, []);
 
   const resetForm = () => {
     setForm(emptyForm);
@@ -49,7 +56,8 @@ export default function ClientsPage() {
   };
 
   return (
-    <section className="grid gap-6 lg:grid-cols-[1fr,2fr]">
+    <ClientOnly fallback={<div className="p-6">Loading…</div>}>
+      <section className="grid gap-6 lg:grid-cols-[1fr,2fr]">
       <form onSubmit={submit} className="space-y-3 rounded-lg bg-white p-4 shadow-sm">
         <h2 className="text-lg font-semibold">{editingId ? 'Edit client' : 'New client'}</h2>
         <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Name" />
@@ -134,6 +142,7 @@ export default function ClientsPage() {
           );
         })}
       </ul>
-    </section>
+      </section>
+    </ClientOnly>
   );
 }

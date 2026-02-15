@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { getClients, getOpportunities } from '@/lib/storage';
 import { Client, Opportunity } from '@/types';
+import { ClientOnly } from '@/components/ClientOnly';
 
 export default function DashboardPage() {
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
@@ -19,7 +20,8 @@ export default function DashboardPage() {
   );
 
   return (
-    <section className="space-y-6">
+    <ClientOnly fallback={<div className="p-6">Loading…</div>}>
+      <section className="space-y-6">
       <div className="grid gap-3 sm:grid-cols-3">
         <article className="rounded-lg bg-white p-4 shadow-sm">
           <h2 className="text-sm text-slate-500">Total Opportunities</h2>
@@ -50,6 +52,7 @@ export default function DashboardPage() {
           {topOpportunities.length === 0 ? <li className="text-sm text-slate-500">No opportunities yet.</li> : null}
         </ul>
       </div>
-    </section>
+      </section>
+    </ClientOnly>
   );
 }
