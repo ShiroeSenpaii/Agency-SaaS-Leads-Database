@@ -7,8 +7,8 @@ export default function SettingsPage() {
   const [importText, setImportText] = useState('');
   const [message, setMessage] = useState('');
 
-  const downloadExport = () => {
-    const blob = new Blob([exportData()], { type: 'application/json' });
+  const downloadExport = async () => {
+    const blob = new Blob([await exportData()], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
     anchor.href = url;
@@ -17,8 +17,8 @@ export default function SettingsPage() {
     URL.revokeObjectURL(url);
   };
 
-  const runImport = () => {
-    const result = importData(importText);
+  const runImport = async () => {
+    const result = await importData(importText);
     if (result.ok) {
       setMessage('Import successful.');
       return;
@@ -28,7 +28,7 @@ export default function SettingsPage() {
 
   return (
     <section className="space-y-4 rounded-lg bg-white p-4 shadow-sm">
-      <h2 className="text-lg font-semibold">Local Data Controls</h2>
+      <h2 className="text-lg font-semibold">Data Controls</h2>
       <button className="bg-slate-900 text-white" onClick={downloadExport} type="button">
         Export JSON
       </button>

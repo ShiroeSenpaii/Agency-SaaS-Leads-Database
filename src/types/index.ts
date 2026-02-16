@@ -1,4 +1,5 @@
 export type OpportunityStatus = 'new' | 'reviewing' | 'applied' | 'won' | 'lost';
+export type ValidationStatus = 'ok' | 'dead' | 'timeout' | 'redirected' | 'unknown';
 
 export interface ScoreBreakdown {
   demandFit: number;
@@ -19,6 +20,9 @@ export interface Opportunity {
   totalScore: number;
   createdAt: string;
   updatedAt: string;
+  lastValidatedAt?: string | null;
+  validationStatus?: ValidationStatus;
+  evidenceLinks?: string[];
 }
 
 export interface Client {

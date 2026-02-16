@@ -4,7 +4,7 @@ export default function HomePage() {
   return (
     <section className="space-y-4">
       <p className="text-slate-700">
-        Manage opportunities, score them, and match them to clients. Everything is stored locally in your browser.
+        Manage opportunities, score them, and match them to clients. Your data syncs through Supabase across sessions and devices.
       </p>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Link className="rounded-lg bg-white p-4 shadow-sm hover:bg-slate-100" href="/dashboard">
