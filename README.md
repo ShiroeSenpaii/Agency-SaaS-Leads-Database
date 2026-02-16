@@ -16,3 +16,8 @@
    }
    ```
    with header `x-webhook-secret: <WEBHOOK_SECRET>` to `/api/webhook/opportunities`.
+
+
+## SOC 2 / ISO 27001 examples
+- Use `/settings` and click **Import SOC 2 / ISO 27001 examples** to load 20 opportunities + 1 demo client using the same import/export schema.
+- The source payload lives at `src/lib/examples/soc2-iso27001-import.json`.

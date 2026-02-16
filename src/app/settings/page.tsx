@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { exportData, importData } from '@/lib/storage';
+import soc2IsoDataset from '@/lib/examples/soc2-iso27001-import.json';
 
 export default function SettingsPage() {
   const [importText, setImportText] = useState('');
@@ -17,6 +18,20 @@ export default function SettingsPage() {
     URL.revokeObjectURL(url);
   };
 
+
+  const loadSoc2Examples = async () => {
+    const payloadText = JSON.stringify(soc2IsoDataset, null, 2);
+    setImportText(payloadText);
+    const result = await importData(payloadText);
+
+    if (result.ok) {
+      setMessage('SOC 2 / ISO 27001 examples imported successfully.');
+      return;
+    }
+
+    setMessage(result.error ?? 'SOC 2 / ISO 27001 import failed.');
+  };
+
   const runImport = async () => {
     const result = await importData(importText);
     if (result.ok) {
@@ -29,9 +44,14 @@ export default function SettingsPage() {
   return (
     <section className="space-y-4 rounded-lg bg-white p-4 shadow-sm">
       <h2 className="text-lg font-semibold">Data Controls</h2>
-      <button className="bg-slate-900 text-white" onClick={downloadExport} type="button">
-        Export JSON
-      </button>
+      <div className="flex flex-wrap gap-2">
+        <button className="bg-slate-900 text-white" onClick={downloadExport} type="button">
+          Export JSON
+        </button>
+        <button className="bg-slate-200 text-slate-900" onClick={loadSoc2Examples} type="button">
+          Import SOC 2 / ISO 27001 examples
+        </button>
+      </div>
 
       <div className="space-y-2">
         <label className="block text-sm font-medium">Import JSON</label>
